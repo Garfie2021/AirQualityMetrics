@@ -201,14 +201,13 @@ namespace WinFormsApp1
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@SelectType", cmbSelectType.SelectedIndex);
                     cmd.Parameters.AddWithValue("@Year", int.Parse(cmbYear.Text));
+                    cmd.Parameters.AddWithValue("@PrefecturesCSV", String.Join(",", StaticClass.Prefectures.Where(x => x.Selected).Select(x2 => x2.Name)));
+                    cmd.Parameters.AddWithValue("@MaxPM25", StaticClass.MaxPM25);
+                    cmd.Parameters.AddWithValue("@MaxNOx2", StaticClass.MaxNOx2);
 
-                    string prefecturesCSV = String.Join(",", StaticClass.Prefectures.Where(x => x.Selected).Select(x2 => x2.Name));
-                    cmd.Parameters.AddWithValue("@PrefecturesCSV", prefecturesCSV); // CSV形式の都道府県リストをパラメータとして追加
-
-                    // ストアドプロシージャの実行
                     using (var adapter = new SqlDataAdapter(cmd))
                     {
-                        adapter.Fill(dataTable);
+                        adapter.Fill(dataTable);    // ストアドプロシージャの実行
                     }
                 }
             }
@@ -216,26 +215,23 @@ namespace WinFormsApp1
             // DataGridViewのデータソースを設定
             dataGridView1.DataSource = dataTable;
 
-            if (cmbSelectType.SelectedIndex == (int)ReportType.大気汚染順)
+            // DataGridViewLinkColumnを追加
+            var linkColumn = new DataGridViewLinkColumn
             {
-                // DataGridViewLinkColumnを追加
-                var linkColumn = new DataGridViewLinkColumn
-                {
-                    DataPropertyName = "MapURL", // URLを含む列名
-                    HeaderText = "Google Map URL",
-                    Name = "MapLink"
-                };
-                dataGridView1.Columns.Insert(5, linkColumn);
-                dataGridView1.Columns.RemoveAt(6);
+                DataPropertyName = "MapURL", // URLを含む列名
+                HeaderText = "Google Map URL",
+                Name = "MapLink"
+            };
+            dataGridView1.Columns.Insert(5, linkColumn);
+            dataGridView1.Columns.RemoveAt(6);
 
-                var linkColumn2 = new DataGridViewLinkColumn
-                {
-                    DataPropertyName = "そらまめくんURL", // URLを含む列名
-                    HeaderText = "そらまめくん URL",
-                    Name = "そらまめくんLink"
-                };
-                dataGridView1.Columns.Insert(2, linkColumn2);
-            }
+            var linkColumn2 = new DataGridViewLinkColumn
+            {
+                DataPropertyName = "そらまめくんURL", // URLを含む列名
+                HeaderText = "そらまめくん URL",
+                Name = "そらまめくんLink"
+            };
+            dataGridView1.Columns.Insert(2, linkColumn2);
         }
 
     }

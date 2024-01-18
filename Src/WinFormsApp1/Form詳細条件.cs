@@ -27,7 +27,9 @@ namespace WinFormsApp1
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            StaticClass.SavePrefecturesState(StaticClass.Prefectures);
+            StaticClass.SavePrefecturesState(StaticClass.Prefectures, txtMaxPM25.Text, txtMaxNOx2.Text);
+            StaticClass.LoadPrefecturesState();
+
             Close();
         }
 

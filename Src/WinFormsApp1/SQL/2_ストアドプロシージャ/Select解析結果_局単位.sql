@@ -8,9 +8,11 @@ GO
 
 -- ストアドプロシージャの再作成
 CREATE PROCEDURE Select解析結果_局単位
-    @SelectType INT, -- パラメータを追加
-    @Year SMALLINT,	 -- パラメータを追加
-    @PrefecturesCSV NVARCHAR(MAX) -- CSV形式の都道府県リスト
+    @SelectType INT, -- 
+    @Year SMALLINT,	 -- 
+    @PrefecturesCSV NVARCHAR(MAX), -- CSV形式の都道府県リスト
+    @MaxPM25 INT, -- 
+    @MaxNOx2 INT -- 
 AS
 BEGIN
 	--declare @SelectType INT = 1
@@ -24,6 +26,7 @@ BEGIN
     BEGIN
 		-- 都道府県順
 		SELECT 
+			0 AS 順位,
 			tms.MeasurementStationCode 測定局コード,
 			TRIM(tms.都道府県) 都道府県,
 			tms.Address,
@@ -56,7 +59,10 @@ BEGIN
 			INNER JOIN tMeasurementStation tms ON ts.MeasurementStationCode = tms.MeasurementStationCode
 			INNER JOIN @Prefectures p ON tms.都道府県 = p.Name
 	   WHERE
-			[Year] = @Year
+			[Year] = @Year AND
+			NO2_ppm_Sum補正後 > 0 AND PM25_ug_per_m3_Sum補正後  > 0 AND
+			PM25_ug_per_m3_Sum補正後 < @MaxPM25 AND
+			NO2_ppm_Sum補正後 < @MaxNOx2
 		ORDER BY
 			tms.都道府県, tms.Address
     END
@@ -97,7 +103,10 @@ BEGIN
 			INNER JOIN tMeasurementStation tms ON ts.MeasurementStationCode = tms.MeasurementStationCode
 			INNER JOIN @Prefectures p ON tms.都道府県 = p.Name
 		WHERE
-			[Year] = @Year AND NO2_ppm_Sum補正後 > 0 AND PM25_ug_per_m3_Sum補正後  > 0
+			[Year] = @Year AND 
+			NO2_ppm_Sum補正後 > 0 AND PM25_ug_per_m3_Sum補正後  > 0 AND
+			PM25_ug_per_m3_Sum補正後 < @MaxPM25 AND
+			NO2_ppm_Sum補正後 < @MaxNOx2
 		ORDER BY
 			ts.NO2_ppm_Sum補正後 * ts.PM25_ug_per_m3_Sum補正後 --PM25とNO2を掛け算して指数化して順位づけ
     END;
