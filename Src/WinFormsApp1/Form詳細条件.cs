@@ -14,20 +14,40 @@ namespace WinFormsApp1
     public partial class Form詳細条件 : Form
     {
 
-        public Form詳細条件()
+        public Form詳細条件(IEnumerable<string> yearItems)
         {
             InitializeComponent();
 
+            // Enumの値をコンボボックスに追加
+            cmbSelectType.Items.AddRange(Enum.GetNames(typeof(ReportType)));
+            cmbSelectType.SelectedIndex = (int)ReportType.大気汚染順;
+
             BindListToDataGridView();
+
+            foreach (var item in yearItems)
+            {
+                cmbYear.Items.Add(item);
+            }
+            cmbYear.Text = 2023.ToString();
+
         }
 
         private void Form詳細条件_Load(object sender, EventArgs e)
         {
+            cmbSelectType.SelectedIndex = StaticClass.SelectedIndex;
+            txtMaxPM25.Text = StaticClass.MaxPM25.ToString();
+            txtMaxNOx2.Text = StaticClass.MaxNOx2.ToString();
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            StaticClass.SavePrefecturesState(StaticClass.Prefectures, txtMaxPM25.Text, txtMaxNOx2.Text);
+            StaticClass.SavePrefecturesState(
+                StaticClass.Prefectures,
+                txtMaxPM25.Text,
+                txtMaxNOx2.Text,
+                cmbSelectType.SelectedIndex.ToString()
+                );
+
             StaticClass.LoadPrefecturesState();
 
             Close();
@@ -97,5 +117,12 @@ namespace WinFormsApp1
             dataGridView対象都道府県.DataSource = StaticClass.Prefectures;
         }
 
+        private void chk固定測定局コード_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk固定測定局コード.Checked)
+                txt固定測定局コード.Enabled = true;
+            else
+                txt固定測定局コード.Enabled = false;
+        }
     }
 }

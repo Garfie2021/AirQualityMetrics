@@ -8,23 +8,15 @@ namespace WinFormsApp1
     public partial class Form計算結果Viewer : Form
     {
         string ConnectionString;
+        IEnumerable<string> YearItems;
 
-        public Form計算結果Viewer(string connectionString, IEnumerable<string> cmbYearItems, int year)
+        public Form計算結果Viewer(string connectionString, IEnumerable<string> yearItems, int year)
         {
             InitializeComponent();
 
             this.ConnectionString = connectionString;
+            YearItems = yearItems;
 
-            // Enumの値をコンボボックスに追加
-            cmbSelectType.Items.AddRange(Enum.GetNames(typeof(ReportType)));
-            cmbSelectType.SelectedIndex = (int)ReportType.大気汚染順;
-
-            foreach (var item in cmbYearItems)
-            {
-                cmbYear.Items.Add(item);
-            }
-
-            cmbYear.Text = year.ToString();
         }
 
         private void Form計算結果Viewer_Load(object sender, EventArgs e)
@@ -34,12 +26,12 @@ namespace WinFormsApp1
 
         private void btn詳細条件_Click(object sender, EventArgs e)
         {
-            var form詳細条件 = new Form詳細条件();
-            form詳細条件.Show();
-        }
+            var form詳細条件 = new Form詳細条件(YearItems);
+            form詳細条件.ShowDialog();
 
-        private void btn更新_Click(object sender, EventArgs e)
-        {
+            if (form詳細条件.DialogResult != DialogResult.OK)
+                return;
+
             更新();
         }
 
@@ -199,8 +191,8 @@ namespace WinFormsApp1
                 using (var cmd = new SqlCommand("Select解析結果_局単位", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@SelectType", cmbSelectType.SelectedIndex);
-                    cmd.Parameters.AddWithValue("@Year", int.Parse(cmbYear.Text));
+                    cmd.Parameters.AddWithValue("@SelectType", StaticClass.SelectedIndex);
+                    cmd.Parameters.AddWithValue("@Year", 2023);
                     cmd.Parameters.AddWithValue("@PrefecturesCSV", String.Join(",", StaticClass.Prefectures.Where(x => x.Selected).Select(x2 => x2.Name)));
                     cmd.Parameters.AddWithValue("@MaxPM25", StaticClass.MaxPM25);
                     cmd.Parameters.AddWithValue("@MaxNOx2", StaticClass.MaxNOx2);

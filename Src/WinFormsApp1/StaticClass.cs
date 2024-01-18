@@ -13,7 +13,10 @@ namespace WinFormsApp1
         internal static BindingList<Prefecture>? Prefectures;
         internal static int MaxPM25;
         internal static int MaxNOx2;
-        
+        internal static int SelectedIndex;
+        internal static int Year;
+        internal static int chk固定測定局コードChecked;
+
         internal static void LoadPrefecturesState()
         {
             // App.config から設定を読み込む
@@ -59,9 +62,23 @@ namespace WinFormsApp1
             {
                 StaticClass.MaxNOx2 = 30;
             }
+
+            var selectedIndex = ConfigurationManager.AppSettings["SelectedIndex"];
+            if (!string.IsNullOrEmpty(selectedIndex))
+            {
+                StaticClass.SelectedIndex = int.Parse(selectedIndex);
+            }
+            else
+            {
+                StaticClass.SelectedIndex = 1;
+            }
         }
 
-        internal static void SavePrefecturesState(BindingList<Prefecture> prefectures, string maxPM25, string maxNOx2)
+        internal static void SavePrefecturesState(
+            BindingList<Prefecture> prefectures, 
+            string maxPM25, 
+            string maxNOx2,
+            string selectedIndex)
         {
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var values = new List<string>();
@@ -91,6 +108,11 @@ namespace WinFormsApp1
             else
                 config.AppSettings.Settings["MaxNOx2"].Value = maxNOx2;
 
+            if (config.AppSettings.Settings["SelectedIndex"] == null)
+                config.AppSettings.Settings.Add("SelectedIndex", selectedIndex);
+            else
+                config.AppSettings.Settings["SelectedIndex"].Value = selectedIndex;
+            
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
         }

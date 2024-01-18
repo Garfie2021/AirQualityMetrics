@@ -29,13 +29,9 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            cmbSelectType = new ComboBox();
-            btn更新 = new Button();
-            label11 = new Label();
-            cmbYear = new ComboBox();
             btnCSVファイル出力 = new Button();
             btnHTMLファイル出力 = new Button();
-            btn詳細条件 = new Button();
+            btn抽出条件設定 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -52,43 +48,6 @@
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.ColumnHeaderMouseClick += dataGridView1_ColumnHeaderMouseClick;
-            // 
-            // cmbSelectType
-            // 
-            cmbSelectType.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbSelectType.FormattingEnabled = true;
-            cmbSelectType.Location = new Point(12, 5);
-            cmbSelectType.Name = "cmbSelectType";
-            cmbSelectType.Size = new Size(121, 23);
-            cmbSelectType.TabIndex = 1;
-            // 
-            // btn更新
-            // 
-            btn更新.Location = new Point(478, 2);
-            btn更新.Name = "btn更新";
-            btn更新.Size = new Size(75, 23);
-            btn更新.TabIndex = 2;
-            btn更新.Text = "更新";
-            btn更新.UseVisualStyleBackColor = true;
-            btn更新.Click += btn更新_Click;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(170, 6);
-            label11.Name = "label11";
-            label11.Size = new Size(67, 15);
-            label11.TabIndex = 27;
-            label11.Text = "計算対象年";
-            // 
-            // cmbYear
-            // 
-            cmbYear.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbYear.FormattingEnabled = true;
-            cmbYear.Location = new Point(241, 3);
-            cmbYear.Name = "cmbYear";
-            cmbYear.Size = new Size(73, 23);
-            cmbYear.TabIndex = 26;
             // 
             // btnCSVファイル出力
             // 
@@ -112,28 +71,24 @@
             btnHTMLファイル出力.UseVisualStyleBackColor = true;
             btnHTMLファイル出力.Click += btnHTMLファイル出力_Click;
             // 
-            // btn詳細条件
+            // btn抽出条件設定
             // 
-            btn詳細条件.Location = new Point(338, 4);
-            btn詳細条件.Name = "btn詳細条件";
-            btn詳細条件.Size = new Size(75, 23);
-            btn詳細条件.TabIndex = 30;
-            btn詳細条件.Text = "詳細条件";
-            btn詳細条件.UseVisualStyleBackColor = true;
-            btn詳細条件.Click += btn詳細条件_Click;
+            btn抽出条件設定.Location = new Point(2, 3);
+            btn抽出条件設定.Name = "btn抽出条件設定";
+            btn抽出条件設定.Size = new Size(107, 23);
+            btn抽出条件設定.TabIndex = 30;
+            btn抽出条件設定.Text = "抽出条件設定";
+            btn抽出条件設定.UseVisualStyleBackColor = true;
+            btn抽出条件設定.Click += btn詳細条件_Click;
             // 
             // Form計算結果Viewer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(btn詳細条件);
+            Controls.Add(btn抽出条件設定);
             Controls.Add(btnHTMLファイル出力);
             Controls.Add(btnCSVファイル出力);
-            Controls.Add(label11);
-            Controls.Add(cmbYear);
-            Controls.Add(btn更新);
-            Controls.Add(cmbSelectType);
             Controls.Add(dataGridView1);
             Name = "Form計算結果Viewer";
             StartPosition = FormStartPosition.CenterScreen;
@@ -142,19 +97,18 @@
             Load += Form計算結果Viewer_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private DataGridView dataGridView1;
-        private ComboBox cmbSelectType;
         private Button btn更新;
         private Label label11;
-        private ComboBox cmbYear;
         private Button btnCSVファイル出力;
         private Button btnHTMLファイル出力;
         private Button button1;
         private Button btn詳細条件;
+        private Button btn抽出条件;
+        private Button btn抽出条件設定;
     }
 }
