@@ -37,16 +37,20 @@ namespace WinFormsApp1
             cmbSelectType.SelectedIndex = StaticClass.SelectedIndex;
             txtMaxPM25.Text = StaticClass.MaxPM25.ToString();
             txtMaxNOx2.Text = StaticClass.MaxNOx2.ToString();
+            chk固定測定局コード.Checked = StaticClass.固定測定局コードChecked;
+            txt固定測定局コード.Text = StaticClass.固定測定局コード;
+
         }
 
-        private void btnOK_Click(object sender, EventArgs e)
+    private void btnOK_Click(object sender, EventArgs e)
         {
             StaticClass.SavePrefecturesState(
                 StaticClass.Prefectures,
                 txtMaxPM25.Text,
                 txtMaxNOx2.Text,
-                cmbSelectType.SelectedIndex.ToString()
-                );
+                cmbSelectType.SelectedIndex.ToString(),
+                chk固定測定局コード.Checked,
+                txt固定測定局コード.Text);
 
             StaticClass.LoadPrefecturesState();
 
@@ -120,9 +124,15 @@ namespace WinFormsApp1
         private void chk固定測定局コード_CheckedChanged(object sender, EventArgs e)
         {
             if (chk固定測定局コード.Checked)
-                txt固定測定局コード.Enabled = true;
+            {
+                groupBox1.Enabled = true;
+                groupBox2.Enabled = false;
+            }
             else
-                txt固定測定局コード.Enabled = false;
+            {
+                groupBox1.Enabled = false;
+                groupBox2.Enabled = true;
+            }
         }
     }
 }

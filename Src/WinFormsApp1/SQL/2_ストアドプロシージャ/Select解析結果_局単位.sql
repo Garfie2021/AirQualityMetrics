@@ -21,7 +21,7 @@ BEGIN
     DECLARE @Prefectures TABLE (Name NVARCHAR(100));
     INSERT INTO @Prefectures (Name)
     SELECT value FROM STRING_SPLIT(@PrefecturesCSV, ',');
-	
+
     IF @SelectType = 0
     BEGIN
 		-- 都道府県順
@@ -62,7 +62,7 @@ BEGIN
 			FROM tSummary ts
 				INNER JOIN tMeasurementStation tms ON ts.MeasurementStationCode = tms.MeasurementStationCode
 				INNER JOIN @Prefectures p ON tms.都道府県 = p.Name
-			WHERE
+ 			WHERE
 				[Year] = @Year AND 
 				NO2_ppm_Sum補正後 > 0 AND PM25_ug_per_m3_Sum補正後  > 0 AND
 				PM25_ug_per_m3_Sum補正後 < @MaxPM25 AND
@@ -113,5 +113,4 @@ BEGIN
 			PM25_ug_per_m3_Sum補正後 < @MaxPM25 AND
 			NO2_ppm_Sum補正後 < @MaxNOx2
     END;
-
 END;

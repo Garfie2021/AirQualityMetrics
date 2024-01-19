@@ -15,7 +15,8 @@ namespace WinFormsApp1
         internal static int MaxNOx2;
         internal static int SelectedIndex;
         internal static int Year;
-        internal static int chk固定測定局コードChecked;
+        internal static bool 固定測定局コードChecked;
+        internal static string 固定測定局コード;
 
         internal static void LoadPrefecturesState()
         {
@@ -45,40 +46,42 @@ namespace WinFormsApp1
 
             var maxPM25 = ConfigurationManager.AppSettings["MaxPM25"];
             if (!string.IsNullOrEmpty(maxPM25))
-            {
                 StaticClass.MaxPM25 = int.Parse(maxPM25);
-            }
             else
-            {
                 StaticClass.MaxPM25 = 70000;
-            }
 
             var maxNOx2 = ConfigurationManager.AppSettings["MaxNOx2"];
             if (!string.IsNullOrEmpty(maxNOx2))
-            {
                 StaticClass.MaxNOx2 = int.Parse(maxNOx2);
-            }
             else
-            {
                 StaticClass.MaxNOx2 = 30;
-            }
 
             var selectedIndex = ConfigurationManager.AppSettings["SelectedIndex"];
             if (!string.IsNullOrEmpty(selectedIndex))
-            {
                 StaticClass.SelectedIndex = int.Parse(selectedIndex);
-            }
             else
-            {
                 StaticClass.SelectedIndex = 1;
-            }
+
+            var 固定測定局コードChecked = ConfigurationManager.AppSettings["固定測定局コードChecked"];
+            if (!string.IsNullOrEmpty(固定測定局コードChecked))
+                StaticClass.固定測定局コードChecked = bool.Parse(固定測定局コードChecked);
+            else
+                StaticClass.固定測定局コードChecked = false;
+
+            var 固定測定局コード = ConfigurationManager.AppSettings["固定測定局コード"];
+            if (!string.IsNullOrEmpty(固定測定局コード))
+                StaticClass.固定測定局コード = 固定測定局コード;
+            else
+                StaticClass.固定測定局コード = string.Empty;
         }
 
         internal static void SavePrefecturesState(
             BindingList<Prefecture> prefectures, 
             string maxPM25, 
             string maxNOx2,
-            string selectedIndex)
+            string selectedIndex,
+            bool 固定測定局コードChecked,
+            string 固定測定局コード)
         {
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var values = new List<string>();
@@ -112,7 +115,17 @@ namespace WinFormsApp1
                 config.AppSettings.Settings.Add("SelectedIndex", selectedIndex);
             else
                 config.AppSettings.Settings["SelectedIndex"].Value = selectedIndex;
-            
+
+            if (config.AppSettings.Settings["固定測定局コードChecked"] == null)
+                config.AppSettings.Settings.Add("固定測定局コードChecked", 固定測定局コードChecked.ToString());
+            else
+                config.AppSettings.Settings["固定測定局コードChecked"].Value = 固定測定局コードChecked.ToString();
+
+            if (config.AppSettings.Settings["固定測定局コード"] == null)
+                config.AppSettings.Settings.Add("固定測定局コード", 固定測定局コード);
+            else
+                config.AppSettings.Settings["固定測定局コード"].Value = 固定測定局コード;
+
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
         }

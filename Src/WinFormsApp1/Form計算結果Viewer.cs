@@ -188,18 +188,34 @@ namespace WinFormsApp1
             {
                 conn.Open();
 
-                using (var cmd = new SqlCommand("Select解析結果_局単位", conn))
+                if (StaticClass.固定測定局コードChecked)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@SelectType", StaticClass.SelectedIndex);
-                    cmd.Parameters.AddWithValue("@Year", 2023);
-                    cmd.Parameters.AddWithValue("@PrefecturesCSV", String.Join(",", StaticClass.Prefectures.Where(x => x.Selected).Select(x2 => x2.Name)));
-                    cmd.Parameters.AddWithValue("@MaxPM25", StaticClass.MaxPM25);
-                    cmd.Parameters.AddWithValue("@MaxNOx2", StaticClass.MaxNOx2);
-
-                    using (var adapter = new SqlDataAdapter(cmd))
+                    using (var cmd = new SqlCommand("Select解析結果_固定局", conn))
                     {
-                        adapter.Fill(dataTable);    // ストアドプロシージャの実行
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@固定測定局コード", StaticClass.固定測定局コード);
+
+                        using (var adapter = new SqlDataAdapter(cmd))
+                        {
+                            adapter.Fill(dataTable);    // ストアドプロシージャの実行
+                        }
+                    }
+                }
+                else
+                {
+                    using (var cmd = new SqlCommand("Select解析結果_局単位", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@SelectType", StaticClass.SelectedIndex);
+                        cmd.Parameters.AddWithValue("@Year", 2023);
+                        cmd.Parameters.AddWithValue("@PrefecturesCSV", String.Join(",", StaticClass.Prefectures.Where(x => x.Selected).Select(x2 => x2.Name)));
+                        cmd.Parameters.AddWithValue("@MaxPM25", StaticClass.MaxPM25);
+                        cmd.Parameters.AddWithValue("@MaxNOx2", StaticClass.MaxNOx2);
+
+                        using (var adapter = new SqlDataAdapter(cmd))
+                        {
+                            adapter.Fill(dataTable);    // ストアドプロシージャの実行
+                        }
                     }
                 }
             }
