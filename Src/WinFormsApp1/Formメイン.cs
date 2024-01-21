@@ -1110,6 +1110,12 @@ fileTotalLineCnt:{fileTotalLineCnt} => tImportPlane_TotalRowCount:{tImportPlane_
 
         #endregion 3. サマリーを計算
 
+        private void btn水道水_Click(object sender, EventArgs e)
+        {
+            var f水道水 = new F水道水();
+            f水道水.Show();
+        }
+
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             ConfigurationManager.AppSettings["ConnectionString"] = txtConnectionString.Text;

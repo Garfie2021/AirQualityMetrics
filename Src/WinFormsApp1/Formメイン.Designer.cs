@@ -77,10 +77,13 @@
             btnサマリー計算結果を検証 = new Button();
             label11 = new Label();
             btn更新_cmbYear = new Button();
+            groupBox5 = new GroupBox();
+            btn水道水 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox4.SuspendLayout();
+            groupBox5.SuspendLayout();
             SuspendLayout();
             // 
             // txtConnectionString
@@ -575,11 +578,32 @@
             btn更新_cmbYear.UseVisualStyleBackColor = true;
             btn更新_cmbYear.Click += btn更新_cmbYear_Click;
             // 
-            // Form1
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(btn水道水);
+            groupBox5.Location = new Point(6, 378);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(105, 61);
+            groupBox5.TabIndex = 29;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "水道水";
+            // 
+            // btn水道水
+            // 
+            btn水道水.Location = new Point(6, 22);
+            btn水道水.Name = "btn水道水";
+            btn水道水.Size = new Size(75, 23);
+            btn水道水.TabIndex = 0;
+            btn水道水.Text = "水道水";
+            btn水道水.UseVisualStyleBackColor = true;
+            btn水道水.Click += btn水道水_Click;
+            // 
+            // Formメイン
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1288, 616);
+            Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox6);
             Controls.Add(groupBox2);
@@ -587,7 +611,7 @@
             Controls.Add(textBox1);
             Controls.Add(label1);
             Controls.Add(txtConnectionString);
-            Name = "Form1";
+            Name = "Formメイン";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "大気汚染データ分析";
             FormClosing += Form1_FormClosing;
@@ -600,6 +624,7 @@
             groupBox6.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
+            groupBox5.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -655,5 +680,7 @@
         private Button btnMapURL生成;
         private Button btnImportDataConvert;
         private CheckBox chkZip解凍ファイル;
+        private GroupBox groupBox5;
+        private Button btn水道水;
     }
 }
