@@ -9,6 +9,7 @@ namespace WinFormsApp1
     {
         string ConnectionString;
         IEnumerable<string> YearItems;
+        int Year;
 
         public Form計算結果Viewer(string connectionString, IEnumerable<string> yearItems, int year)
         {
@@ -16,8 +17,8 @@ namespace WinFormsApp1
 
             this.ConnectionString = connectionString;
             YearItems = yearItems;
-
-        }
+            Year = year;
+          }
 
         private void Form計算結果Viewer_Load(object sender, EventArgs e)
         {
@@ -207,7 +208,7 @@ namespace WinFormsApp1
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@SelectType", StaticClass.SelectedIndex);
-                        cmd.Parameters.AddWithValue("@Year", 2023);
+                        cmd.Parameters.AddWithValue("@Year", Year);
                         cmd.Parameters.AddWithValue("@PrefecturesCSV", String.Join(",", StaticClass.Prefectures.Where(x => x.Selected).Select(x2 => x2.Name)));
                         cmd.Parameters.AddWithValue("@MaxPM25", StaticClass.MaxPM25);
                         cmd.Parameters.AddWithValue("@MaxNOx2", StaticClass.MaxNOx2);
